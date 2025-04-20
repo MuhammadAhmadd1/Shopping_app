@@ -35,7 +35,12 @@ class _GroceryListState extends State<GroceryList> {
         _error = 'Failed To Fetch Data, Please try again later.';
       });
     }
-
+    if (response.body == 'null') {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
     final Map<String, dynamic> listData = json.decode(response.body);
     final List<GroceryItem> loadItems = [];
     for (final item in listData.entries) {
@@ -99,7 +104,7 @@ class _GroceryListState extends State<GroceryList> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const Center(child: Text('No Items added Yet'));
+    Widget content = const Center(child: Text('No Items added yet.'));
 
     if (_isLoading) {
       content = const Center(child: CircularProgressIndicator());
